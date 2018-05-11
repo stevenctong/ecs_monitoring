@@ -37,6 +37,8 @@ def check_auth_token():
     return
 
 def set_config(file_path=None):
+    cfg = None
+    conf_file = None
     conf_file_name = "ecs.cfg"
 
     if file_path is not None:
