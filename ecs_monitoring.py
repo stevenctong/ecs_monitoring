@@ -22,7 +22,6 @@ username = ""
 password = ""
 cluster = ""
 port = "4443"
-# token = "BAAccXowejF6OFhDNytqVzlseUtCUnF1L2syeVVFPQMAjAQASHVybjpzdG9yYWdlb3M6VmlydHVhbERhdGFDZW50ZXJEYXRhOjBiN2FhMzlhLWU4ODctNGQ4Ny05MDdjLTcxNTkzNzYzMjU3ZQIADTE1MjU5OTYwMjc3OTYDAC51cm46VG9rZW46ZmY5MzM1NDEtZjU2My00MzQyLWE1NGUtNDhlZTA5NjQ3OTNiAgAC0A8="
 
 target_url = "/dashboard/zones/localzone/"
 
@@ -83,7 +82,7 @@ def main():
     tags.update({'Cluster' : req['name']})
 
     for keys in req:
-        print("{} {}".format(keys, type(keys)))
+
         if type(req[keys]) is str:
             try:
                 localzone.update({keys : float(req[keys])})
@@ -175,5 +174,4 @@ def main():
 
     dbclient.write_points(db_array)
 
-    # print(db_array)
 main()
