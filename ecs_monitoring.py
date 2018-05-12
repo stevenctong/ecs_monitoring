@@ -1,3 +1,5 @@
+# Use ecs.cfg to set login details
+
 import json
 import logging
 import datetime
@@ -12,22 +14,11 @@ import requests
 import urllib3
 from influxdb import InfluxDBClient
 
-dbhost = ''
-dbport = 8086
-dbuser = ''
-dbpassword = ''
-dbname = ''
-
-username = ""
-password = ""
-clusterIP = ""
-port = "4443"
-
 target_url = "/dashboard/zones/localzone/"
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def get_auth_token():
+def get_auth_token(username, password):
     req = requests.get("https://{}:{}/login".format(clusterIP, port), \
         auth=(username, password), verify=False)
     return(req.headers['X-SDS-AUTH-TOKEN'])
@@ -53,7 +44,6 @@ def set_config(file_path=None):
     return(cfg)
 
 def main():
-    # token = get_auth_token()
     db_array = []
     localzone = {}
     localzone_metrics = {}
@@ -63,10 +53,14 @@ def main():
 
     CFG = set_config()
     token = CFG.get("token", "X-SDS-AUTH-TOKEN")
+    clusterIP = CFG.get("setup", "clusterIP")
+    port = CFG.get("setup", "port")
 
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
 
-    dbclient = InfluxDBClient(dbhost, dbport, dbuser, dbpassword, dbname)
+    dbclient = InfluxDBClient(CFG.get("setup", "dbhost"), \
+        int(CFG.get("setup", "dbport")), CFG.get("setup", "dbuser"), \
+        CFG.get("setup", "dbpassword"), CFG.get("setup", "dbname"))
 
     req = requests.get("https://{}:{}{}".format(clusterIP, port, target_url), \
         headers={'X-SDS-AUTH-TOKEN': token}, verify=False)
@@ -174,4 +168,5 @@ def main():
 
     dbclient.write_points(db_array)
 
+    print(db_array)
 main()
