@@ -12,17 +12,16 @@ import requests
 import urllib3
 from influxdb import InfluxDBClient
 
-dbhost = '10.4.44.151'
+dbhost = ''
 dbport = 8086
-dbuser = 'root'
-dbpassword = 'root'
-dbname = 'ecsdb'
+dbuser = ''
+dbpassword = ''
+dbname = ''
 
-username = "root"
-password = "ChangeMe"
-clusterIP = "10.213.120.141"
+username = ""
+password = ""
+clusterIP = ""
 port = "4443"
-# token = "BAAccXowejF6OFhDNytqVzlseUtCUnF1L2syeVVFPQMAjAQASHVybjpzdG9yYWdlb3M6VmlydHVhbERhdGFDZW50ZXJEYXRhOjBiN2FhMzlhLWU4ODctNGQ4Ny05MDdjLTcxNTkzNzYzMjU3ZQIADTE1MjU5OTYwMjc3OTYDAC51cm46VG9rZW46ZmY5MzM1NDEtZjU2My00MzQyLWE1NGUtNDhlZTA5NjQ3OTNiAgAC0A8="
 
 target_url = "/dashboard/zones/localzone/"
 
@@ -175,5 +174,4 @@ def main():
 
     dbclient.write_points(db_array)
 
-    # print(db_array)
 main()
