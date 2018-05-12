@@ -12,23 +12,24 @@ import requests
 import urllib3
 from influxdb import InfluxDBClient
 
-dbhost = ''
+dbhost = '10.4.44.151'
 dbport = 8086
-dbuser = ''
-dbpassword = ''
-dbname = ''
+dbuser = 'root'
+dbpassword = 'root'
+dbname = 'ecsdb'
 
-username = ""
-password = ""
-cluster = ""
+username = "root"
+password = "ChangeMe"
+clusterIP = "10.213.120.141"
 port = "4443"
+# token = "BAAccXowejF6OFhDNytqVzlseUtCUnF1L2syeVVFPQMAjAQASHVybjpzdG9yYWdlb3M6VmlydHVhbERhdGFDZW50ZXJEYXRhOjBiN2FhMzlhLWU4ODctNGQ4Ny05MDdjLTcxNTkzNzYzMjU3ZQIADTE1MjU5OTYwMjc3OTYDAC51cm46VG9rZW46ZmY5MzM1NDEtZjU2My00MzQyLWE1NGUtNDhlZTA5NjQ3OTNiAgAC0A8="
 
 target_url = "/dashboard/zones/localzone/"
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 def get_auth_token():
-    req = requests.get("https://{}:{}/login".format(cluster, port), \
+    req = requests.get("https://{}:{}/login".format(clusterIP, port), \
         auth=(username, password), verify=False)
     return(req.headers['X-SDS-AUTH-TOKEN'])
 
@@ -68,7 +69,7 @@ def main():
 
     dbclient = InfluxDBClient(dbhost, dbport, dbuser, dbpassword, dbname)
 
-    req = requests.get("https://{}:{}{}".format(cluster, port, target_url), \
+    req = requests.get("https://{}:{}{}".format(clusterIP, port, target_url), \
         headers={'X-SDS-AUTH-TOKEN': token}, verify=False)
 
     req = req.json()
@@ -174,4 +175,5 @@ def main():
 
     dbclient.write_points(db_array)
 
+    # print(db_array)
 main()
