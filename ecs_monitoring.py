@@ -4,6 +4,7 @@ import json
 import logging
 import datetime
 import os
+import sys
 
 try:
     import ConfigParser as Config
@@ -14,14 +15,53 @@ import requests
 import urllib3
 from influxdb import InfluxDBClient
 
+STATUS_200 = 200
+STATUS_201 = 201
+STATUS_202 = 202
+STATUS_204 = 204
+STATUS_401 = 401
+STATUS_404 = 404
+STATUS_497 = 497
+
+GET = "GET"
+POST = "POST"
+PUT = "PUT"
+DELETE = "DELETE"
+
+py4ecs_token_dir = "~"
+py4ecs_token_filename = "py4ecs.token"
+
 target_url = "/dashboard/zones/localzone/"
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def get_auth_token(username, password):
+def get_auth_token(username, password, clusterIP, port):
+    global_path = os.path.expanduser("{}/{}".format(py4ecs_token_dir, \
+        py4ecs_token_filename))
+    if os.path.isfile(global_path):
+        fread = open(global_path, "r")
+        token = fread.read()
+
+        req = requests.get("https://{}:{}/license".format(clusterIP, port), \
+            headers={'X-SDS-AUTH-TOKEN': token}, verify=False)
+
+        if req.status_code is STATUS_200:
+            return(token)
+
     req = requests.get("https://{}:{}/login".format(clusterIP, port), \
         auth=(username, password), verify=False)
-    return(req.headers['X-SDS-AUTH-TOKEN'])
+    try:
+        req.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        print(err)
+        sys.exit(1)
+
+    token = req.headers['X-SDS-AUTH-TOKEN']
+
+    with open(global_path, "w") as fwrite:
+        fwrite.write("{}".format(token))
+
+    return(token)
 
 def check_auth_token():
     return
@@ -30,17 +70,14 @@ def set_config(file_path=None):
     cfg = None
     conf_file = None
     conf_file_name = "ecs.cfg"
-
     if file_path is not None:
         if os.path.isfile(file_path):
             conf_file = file_path
     elif os.path.isfile(conf_file_name):
         conf_file = conf_file_name
-
     if conf_file is not None:
         cfg = Config.ConfigParser()
         cfg.read(conf_file)
-
     return(cfg)
 
 def main():
@@ -63,7 +100,15 @@ def main():
         CFG.get("setup", "dbpassword"), CFG.get("setup", "dbname"))
 
     req = requests.get("https://{}:{}{}".format(clusterIP, port, target_url), \
-        headers={'X-SDS-AUTH-TOKEN': token}, verify=False)
+        headers={'X-SDS-AUTH-TOKEN': token, 'Content-Type' : 'application/json'}, verify=False)
+
+    if req.status_code in [STATUS_401, STATUS_497]:
+        token = get_auth_token(username = CFG.get("setup", "username"), \
+            password = CFG.get("setup", "password"), clusterIP = clusterIP, \
+            port = port)
+
+        req = requests.get("https://{}:{}{}".format(clusterIP, port, target_url), \
+            headers={'X-SDS-AUTH-TOKEN': token}, verify=False)
 
     req = req.json()
 
