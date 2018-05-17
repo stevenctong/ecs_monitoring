@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1526569700069,
+  "iteration": 1526569700072,
   "links": [],
   "panels": [
     {
@@ -3064,7 +3064,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
-      "decimals": 2,
+      "decimals": 3,
       "fill": 8,
       "gridPos": {
         "h": 6,
@@ -3369,6 +3369,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
+      "decimals": 3,
       "description": "/128 (to MB) / 976.526 (to KiB)",
       "fill": 1,
       "gridPos": {
@@ -3615,6 +3616,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
+      "decimals": 3,
       "fill": 1,
       "gridPos": {
         "h": 6,
@@ -4050,6 +4052,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
+      "decimals": 1,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -4202,7 +4205,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
-      "decimals": 6,
+      "decimals": 3,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -4509,7 +4512,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "${DS_ECS_DB}",
-      "decimals": 6,
+      "decimals": 3,
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -4773,5 +4776,5 @@
   "timezone": "",
   "title": "ECS Dashboard 3.2",
   "uid": "",
-  "version": 90
+  "version": 92
 }
