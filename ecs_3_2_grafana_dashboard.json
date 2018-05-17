@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1526569700066,
+  "iteration": 1526569700069,
   "links": [],
   "panels": [
     {
@@ -1976,7 +1976,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "nodeNicUtilizationCurrent (mean)",
+      "title": "nodeCpu & nodeMemoryUtilizationCur (mean)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2371,10 +2371,13 @@
       },
       "id": 54,
       "legend": {
+        "alignAsTable": false,
         "avg": false,
         "current": false,
+        "hideEmpty": false,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -2612,7 +2615,7 @@
             [
               {
                 "params": [
-                  "gcUserPendingCurrent"
+                  "gcCombinedPendingCurrent"
                 ],
                 "type": "field"
               },
@@ -4739,7 +4742,7 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-2d",
     "to": "now"
   },
   "timepicker": {
@@ -4769,6 +4772,6 @@
   },
   "timezone": "",
   "title": "ECS Dashboard 3.2",
-  "uid": "",
-  "version": 87
+  "uid": "WBPlad7iz",
+  "version": 90
 }
