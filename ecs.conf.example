@@ -1,0 +1,17 @@
+# Re-name file to "ecs.conf"
+
+[setup]
+# ECS details
+username=
+password=
+cluster_ip=
+port=4443
+cluster_name=
+
+[influxdb]
+# InfluxDB details
+dbhost=
+dbport=8086
+dbuser=root
+dbpassword=root
+dbname=
